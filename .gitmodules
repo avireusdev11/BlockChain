@@ -4,3 +4,12 @@
 [submodule "fundme/lib/chainlink-brownie-contracts"]
 	path = fundme/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "fundme/lib/foundry-devops"]
+	path = fundme/lib/foundry-devops
+	url = https://github.com/ChainAccelOrg/foundry-devops
+[submodule "LOTTERY/lib/forge-std"]
+	path = LOTTERY/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "LOTTERY/lib/chainlink-brownie-contracts"]
+	path = LOTTERY/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
