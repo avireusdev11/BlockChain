@@ -14,6 +14,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     error Raffle__sendMoreToEnterRaffle();
     error Raffle__transferFailed();
     error Raffle_RaffleNotOpen();
+    error Raffle__UpkeepNotNeeded(uint256 balance, uint256 playersLength, uint256 raffleState);
 
     /*Enum*/
     enum RaffleState{OPEN, CALCULATING}
@@ -69,13 +70,35 @@ contract Raffle is VRFConsumerBaseV2Plus {
         // require(msg.value >= i_entranceFee, SendMoreToEnterRaffle());
     }
 
+    //function that chainlink nodes will call to see if the lottery is ready to have a winner picked
+    function checkUpkeep(bytes memory /* checkData */) public view returns (bool upkeepNeeded, bytes memory /* performData */){
+        bool timeHasPassed = (block.timestamp - s_lastTimeStamp >= i_interval);
+        bool isOpen = s_raffleState==RaffleState.OPEN;
+        bool hasBalance = address(this).balance > 0;
+        bool hasPlayers = s_players.length>0;
+        upkeepNeeded = timeHasPassed && isOpen && hasBalance && hasPlayers;
+        return (upkeepNeeded, "");
+         
+
+    }
+
+    
+
     //1 Get a Random Number
     //2 Automatically calling
-    function pickWinner() external {
+
+    //function to pickRandomWinner
+    function performUpkeep(bytes calldata /* performData */) external {
         //check if enough time is passed
-        if (block.timestamp - s_lastTimeStamp < i_interval) {
-            revert();
+        (bool upkeepNeeded,) = checkUpkeep("");
+        if(!upkeepNeeded)
+        {
+            revert Raffle__UpkeepNotNeeded(address(this).balance,s_players.length, uint256(s_raffleState));
+
         }
+        // if (block.timestamp - s_lastTimeStamp < i_interval) {
+        //     revert();
+        // }
 
         s_raffleState =RaffleState.CALCULATING;
         // Get our random number from chainlink so that it is non-deterministic
@@ -118,5 +141,9 @@ contract Raffle is VRFConsumerBaseV2Plus {
     /*Getter Function*/
     function getEntraceFee() external view returns (uint256) {
         return i_entranceFee;
+    }
+
+    function getRaffleState() external view returns(RaffleState){
+        return s_raffleState;
     }
 }
