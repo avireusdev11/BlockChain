@@ -43,3 +43,15 @@
 [submodule "stableCoinProject/lib/foundry-chainlink-toolkit"]
 	path = stableCoinProject/lib/foundry-chainlink-toolkit
 	url = https://github.com/smartcontractkit/foundry-chainlink-toolkit
+[submodule "merkle/lib/forge-std"]
+	path = merkle/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "merkle/lib/openzeppelin-contracts"]
+	path = merkle/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "merkle/lib/murky"]
+	path = merkle/lib/murky
+	url = https://github.com/dmfxyz/murky
+[submodule "merkle/lib/foundry-devops"]
+	path = merkle/lib/foundry-devops
+	url = https://github.com/cyfrin/foundry-devops
